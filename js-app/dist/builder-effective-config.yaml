@@ -1,0 +1,14 @@
+directories:
+  output: dist
+  buildResources: build
+appId: com.idalgame.music
+mac:
+  category: public.app-category.utilities
+extraResources: []
+win:
+  extraResources:
+    - native/*.dll
+    - native/*.exe
+    - native/*.app.bat
+    - '!./exclude-me.dll'
+electronVersion: 5.0.1

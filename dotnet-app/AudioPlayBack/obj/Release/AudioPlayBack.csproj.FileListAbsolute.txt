@@ -1,0 +1,10 @@
+C:\Users\1\IdeaProjects\music-analyze\dotnet-app\AudioPlayBack\bin\Release\AudioPlayBack.exe.config
+C:\Users\1\IdeaProjects\music-analyze\dotnet-app\AudioPlayBack\bin\Release\AudioPlayBack.exe
+C:\Users\1\IdeaProjects\music-analyze\dotnet-app\AudioPlayBack\bin\Release\AudioPlayBack.pdb
+C:\Users\1\IdeaProjects\music-analyze\dotnet-app\AudioPlayBack\bin\Release\NAudio.dll
+C:\Users\1\IdeaProjects\music-analyze\dotnet-app\AudioPlayBack\bin\Release\NAudio.xml
+C:\Users\1\IdeaProjects\music-analyze\dotnet-app\AudioPlayBack\obj\Release\AudioPlayBack.csprojAssemblyReference.cache
+C:\Users\1\IdeaProjects\music-analyze\dotnet-app\AudioPlayBack\obj\Release\AudioPlayBack.csproj.CoreCompileInputs.cache
+C:\Users\1\IdeaProjects\music-analyze\dotnet-app\AudioPlayBack\obj\Release\AudioPlayBack.csproj.CopyComplete
+C:\Users\1\IdeaProjects\music-analyze\dotnet-app\AudioPlayBack\obj\Release\AudioPlayBack.exe
+C:\Users\1\IdeaProjects\music-analyze\dotnet-app\AudioPlayBack\obj\Release\AudioPlayBack.pdb

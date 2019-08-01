@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+        <link rel="stylesheet" href="css/mainStyle.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body style="background: rgba(151, 147, 147, 0.5);">
+ <div>
+     <h1 id="text_edit">Редактирование</h1>
+ </div>
+            <div id="btn" style=" opacity: 1;">
+                    <button id="save">Save</button>
+                    <button id="add" type="submit">NEW</button>
+                </div>
+        
+<script>
+const BrowserWindow = require('electron').remote.BrowserWindow;
+const path = require('path');
+const url = require('url');
+const { ipcRenderer } = require('electron');
+//const Visualizator_file = require('./js/propertys');
+const AddButton = document.getElementById('add');
+const SaveButton = document.getElementById('save');
+AddButton.addEventListener('click' , function(event){
+    ipcRenderer.on('CreateWindow', (event,method) =>{
+            console.log(method);
+    });
+
+   // alert("In Develop");
+})
+SaveButton.addEventListener('click' , function(event){
+var Windows = BrowserWindow.getAllWindows();
+           
+                    Windows[1].webContents.send("editMode" , false)
+});
+</script>
+</body>
+</html>

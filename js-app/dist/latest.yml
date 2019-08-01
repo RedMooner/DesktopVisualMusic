@@ -1,0 +1,8 @@
+version: 0.0.1
+files:
+  - url: music-Setup-0.0.1.exe
+    sha512: 3TmFUtejjrsJpHV16GdEADIpZk/c6u8KVCufk5KfGRbPizv0fPKzWjnjB05oQjsSgDOmzK6Kmu44XGLJoESrYg==
+    size: 44428501
+path: music-Setup-0.0.1.exe
+sha512: 3TmFUtejjrsJpHV16GdEADIpZk/c6u8KVCufk5KfGRbPizv0fPKzWjnjB05oQjsSgDOmzK6Kmu44XGLJoESrYg==
+releaseDate: '2019-08-01T08:17:14.387Z'

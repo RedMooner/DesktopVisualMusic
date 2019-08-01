@@ -1,0 +1,40 @@
+{
+  "name": "music",
+  "version": "0.0.1",
+  "description": "Windows helper",
+  "main": "main.js",
+  "buildResources": "resources",
+  "scripts": {
+    "start": "electron .",
+    "pack": "electron-builder --dir",
+    "dist": "electron-builder"
+  },
+  "repository": "https://github.com/electron/electron-quick-start",
+  "keywords": [
+    "music"
+  ],
+  "author": "IDALGAME",
+  "license": "NoUSE",
+  "devDependencies": {
+    "asar": "^1.0.0",
+    "electron": "5.0.1",
+    "electron-builder": "~20.38.5",
+    "electron-packager": "^13.1.0"
+  },
+  "dependencies": {},
+  "build": {
+    "appId": "com.idalgame.music",
+    "mac": {
+      "category": "public.app-category.utilities"
+    },
+    "extraResources": [],
+    "win": {
+      "extraResources": [
+        "native/*.dll",
+        "native/*.exe",
+        "native/*.app.bat",
+        "!./exclude-me.dll"
+      ]
+    }
+  }
+}
