@@ -1,43 +1,10 @@
-
-#text_edit{
-opacity: 0.3;
-
-
-text-align: center;
-vertical-align: middle;
-
+body {
+  margin: 0%;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  border: solid red 2px;
+  box-sizing: border-box;
 }
-#btn{
-    position: absolute;
-    right: 0;
-    bottom: 0;
-   display: flex;
-    padding-top: auto;
-    float: right;
-    width: auto;
-    height: 50px;
-}
-#save{
-    color:#00c6ff;
-    text-decoration:none;
-    text-align:center;
-    display: block;
-    font: 400 18px tahoma;
-    border: 1px solid #00C6FF;
-   }
-  #save:hover {
-   background-position: 0 0;
-   color:#fff;
-   }
-#add{
-    color:#00c6ff;
-    text-decoration:none;
-    text-align:center;
-    display: block;
-    font: 400 18px tahoma;
-    border: 1px solid #00C6FF;
-}
-#add:hover {
-    background-position: 0 0;
-    color:#fff;
-    }

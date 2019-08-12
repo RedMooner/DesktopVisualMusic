@@ -1,59 +1,63 @@
 <html>
-<head>
+  <head> </head>
+  <body>
+    <script>
+      const { ipcRenderer } = require("electron");
 
-</head>
-<body>
-
-<script>
-
-
-    const { ipcRenderer } = require('electron');
-
-    ipcRenderer.on('waveData', (event, data) => {
+      ipcRenderer.on("waveData", (event, data) => {
         array = data;
         //console.log(data);
-    });
+      });
 
-    var body, num, array, width, context, logo, myElements, analyser, src, height;
+      var body,
+        num,
+        array,
+        width,
+        context,
+        logo,
+        myElements,
+        analyser,
+        src,
+        height;
 
-    body = document.querySelector('body');
-    num = 32;
-    array = new Uint8Array(num*2);
-    width = 10;
+      body = document.querySelector("body");
+      num = 32;
+      array = new Uint8Array(num * 2);
+      width = 10;
 
-    for(var i = 0 ; i < num ; i++){
-        logo = document.createElement('div');
-        logo.className = 'logo';
-        logo.style.background = 'red';
-        logo.style.minWidth = width+'px';
+      for (var i = 0; i < num; i++) {
+        logo = document.createElement("div");
+        logo.className = "logo";
+        logo.style.background = "red";
+        logo.style.minWidth = width + "px";
         body.appendChild(logo);
-    }
+      }
 
-    myElements = document.getElementsByClassName('logo');
-    context = new AudioContext();
+      myElements = document.getElementsByClassName("logo");
+      context = new AudioContext();
 
+      navigator.mediaDevices
+        .getUserMedia({
+          audio: true
+        })
+        .then(stream => {
+          src = context.createMediaStreamSource(stream);
+          loop();
+        })
+        .catch(error => {
+          alert(error + "\r\n\ ");
+          location.reload();
+        });
 
-    navigator.mediaDevices.getUserMedia({
-        audio: true
-    }).then(stream => {
-        src = context.createMediaStreamSource(stream);
-        loop();
-    }).catch(error => {
-        alert(error + '\r\n\ ');
-        location.reload();
-    });
-
-
-    function loop() {
+      function loop() {
         window.requestAnimationFrame(loop);
 
-        for(var i = 0 ; i < num ; i++){
-            height = array[i+num];
-            myElements[i].style.minHeight = height+'px';
-            myElements[i].style.opacity = 0.008*height;
+        for (var i = 0; i < num; i++) {
+          height = array[i + num];
+          myElements[i].style.minHeight = height + "px";
+          myElements[i].style.opacity = 0.008 * height;
         }
-    }
-</script>
-</body>
-
+      }
+    </script>
+  </body>
 </html>

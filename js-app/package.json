@@ -18,10 +18,16 @@
   "devDependencies": {
     "asar": "^1.0.0",
     "electron": "5.0.1",
-    "electron-builder": "~20.38.5",
+    "electron-builder": "^20.44.4",
     "electron-packager": "^13.1.0"
   },
-  "dependencies": {},
+  "dependencies": {
+    "@wuild/electron-notification": "^1.0.3",
+    "axios": "^0.19.0",
+    "chardet": "^0.8.0",
+    "electron-notifications": "^1.0.0",
+    "xmlhttprequest": "^1.8.0"
+  },
   "build": {
     "appId": "com.idalgame.music",
     "mac": {
