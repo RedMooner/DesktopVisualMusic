@@ -1,0 +1,10 @@
+body {
+  margin: 0%;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  border: solid red 2px;
+  box-sizing: border-box;
+}
