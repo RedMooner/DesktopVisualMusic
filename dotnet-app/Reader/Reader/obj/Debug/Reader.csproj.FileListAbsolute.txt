@@ -1,7 +1,0 @@
-C:\Users\motyr\OneDrive\Рабочий стол\DesctopVisual\dotnet-app\Reader\Reader\bin\Debug\Reader.exe.config
-C:\Users\motyr\OneDrive\Рабочий стол\DesctopVisual\dotnet-app\Reader\Reader\bin\Debug\Reader.exe
-C:\Users\motyr\OneDrive\Рабочий стол\DesctopVisual\dotnet-app\Reader\Reader\bin\Debug\Reader.pdb
-C:\Users\motyr\OneDrive\Рабочий стол\DesctopVisual\dotnet-app\Reader\Reader\obj\Debug\Reader.csprojAssemblyReference.cache
-C:\Users\motyr\OneDrive\Рабочий стол\DesctopVisual\dotnet-app\Reader\Reader\obj\Debug\Reader.csproj.CoreCompileInputs.cache
-C:\Users\motyr\OneDrive\Рабочий стол\DesctopVisual\dotnet-app\Reader\Reader\obj\Debug\Reader.exe
-C:\Users\motyr\OneDrive\Рабочий стол\DesctopVisual\dotnet-app\Reader\Reader\obj\Debug\Reader.pdb

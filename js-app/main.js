@@ -7,8 +7,9 @@ const electron = require("electron");
 const Path = require("path");
 const fs = require("fs");
 const translation = require("./src/language/translate");
+const save = require("./src/save_system/Save");
 const Notification = require("@wuild/electron-notification");
-
+var AutoLaunch = require("auto-launch");
 /*
 Windwos[0] - ТРЕЙ
 Windwow[1] - Окно редактиования
@@ -18,7 +19,6 @@ let trayWIN;
 let mainWindow;
 let Visualizator;
 let a;
-let child_reader = child_process.spawn("native\\language\\Reader.exe", []);
 var lang_data;
 var noty_title;
 var noty_body;
@@ -48,7 +48,7 @@ if (!gotTheLock) {
 
 function initApp() {
   // checking first launch
-
+  // save.Load();
   //
   app.on("ready", () => {
     trayWIN = new BrowserWindow({
@@ -68,7 +68,7 @@ function initApp() {
     });
     trayWIN.loadURL(`file://${Path.join(__dirname, "src/Tray.html")}`);
     TrayWindow.setOptions({
-      trayIconPath: Path.join("src/ico/16.png"),
+      trayIconPath: Path.join(__dirname, "16.png"),
       window: trayWIN
     });
 
@@ -81,14 +81,36 @@ function initApp() {
     var note = new Notification({});
     mainWindow.webContents.send("start_app", "start");
     mainWindow.webContents.send("CreateWindow", " createVisualizator");
+
+
+    let path = require('path');
+    let relreadpath = "\\native\\language\\Reader.exe";
+    let basereadpath = path.dirname(__dirname);
+    let filereadpath = basereadpath + relreadpath;
+
+    if (!fs.existsSync(filereadpath)) {
+        filereadpath = __dirname + relreadpath;
+    }
+
+    let child_reader = child_process.spawn(filereadpath, []);
+
     child_reader.stdout.on("data", function(data) {
-      lang_data = Buffer.from(Buffer.from(data).toString("utf-8"), "base64");
-      a = JSON.parse(lang_data);
-      noty_body = translation.translate_str("noty_body", JSON.parse(lang_data));
-      noty_title = translation.translate_str(
-        "noty_title",
-        JSON.parse(lang_data)
-      );
+      if (data != "err") {
+        lang_data = Buffer.from(Buffer.from(data).toString("utf-8"), "base64");
+        a = JSON.parse(lang_data);
+        noty_body = translation.translate_str(
+          "noty_body",
+          JSON.parse(lang_data)
+        );
+        noty_title = translation.translate_str(
+          "noty_title",
+          JSON.parse(lang_data)
+        );
+      } else {
+        noty_body = "ENG";
+        noty_title = "ENG";
+        lang_data = "err";
+      }
       //console.log(translation.translate_str("noty_title", a));
       if (fs.existsSync("./src/flag.txt")) {
       } else {
@@ -181,7 +203,17 @@ function createVisualizator() {
   let bytesPerSec = false;
   let currentChunk = [];
   let currentVal = [];
-  let child = child_process.spawn("native\\AudioPlayBack.exe", []);
+
+  let path = require('path');
+  let relreadpath = "\\native\\AudioPlayBack.exe";
+  let basereadpath = path.dirname(__dirname);
+  let filereadpath = basereadpath + relreadpath;
+
+  if (!fs.existsSync(filereadpath)) {
+      filereadpath = __dirname + relreadpath;
+  }
+
+  let child = child_process.spawn(filereadpath, []);
 
   child.stdout.on("data", function(data) {
     //currentChunk = [];
@@ -294,4 +326,14 @@ ipcMain.on("Add_Vis", (event, args) => {
 });
 ipcMain.on("tray_start", (event, args) => {
   trayWIN.webContents.send("lang_data_event", lang_data);
+});
+ipcMain.on("auto_enable", (event, args) => {
+  var AutoLauncher = new AutoLaunch({
+    name: "DVM"
+  });
+  if (args == "enable") {
+    AutoLauncher.enable();
+  } else {
+    AutoLauncher.disable();
+  }
 });

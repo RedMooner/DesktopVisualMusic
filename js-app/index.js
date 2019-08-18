@@ -50,6 +50,10 @@ function init(options) {
     ipcMain.emit("tray-window-clicked", { window: window, tray: tray });
     toggleWindow();
   });
+  tray.on("right-click", function(event) {
+      ipcMain.emit("tray-window-clicked", { window: window, tray: tray });
+      toggleWindow();
+  });
 
   setWindowAutoHide();
   alignWindow();
