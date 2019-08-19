@@ -14,7 +14,7 @@ body = document.querySelector("body");
 num = 32;
 array = new Uint8Array(num * 2);
 width = 10;
-//var bodyNode = document.body;
+//var  bodyNode = document.body;
 
 ipcRenderer.on("editMode", (event, edit) => {
   var Windows = BrowserWindow.getAllWindows();

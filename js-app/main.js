@@ -48,7 +48,7 @@ if (!gotTheLock) {
 
 function initApp() {
   // checking first launch
-  // save.Load();
+
   //
   app.on("ready", () => {
     trayWIN = new BrowserWindow({
@@ -82,14 +82,13 @@ function initApp() {
     mainWindow.webContents.send("start_app", "start");
     mainWindow.webContents.send("CreateWindow", " createVisualizator");
 
-
-    let path = require('path');
+    let path = require("path");
     let relreadpath = "\\native\\language\\Reader.exe";
     let basereadpath = path.dirname(__dirname);
     let filereadpath = basereadpath + relreadpath;
 
     if (!fs.existsSync(filereadpath)) {
-        filereadpath = __dirname + relreadpath;
+      filereadpath = __dirname + relreadpath;
     }
 
     let child_reader = child_process.spawn(filereadpath, []);
@@ -112,7 +111,11 @@ function initApp() {
         lang_data = "err";
       }
       //console.log(translation.translate_str("noty_title", a));
-      if (fs.existsSync("./src/flag.txt")) {
+      var Saves = save.Load();
+      var flag = save.load_data("noty_flag", Saves);
+      var auto_flag = save.load_data("auto_start_flag", Saves);
+      console.log(flag);
+      if (flag == "true") {
       } else {
         note = new Notification({
           theme: "dark",
@@ -125,12 +128,9 @@ function initApp() {
         trayWIN.on("show", function() {
           console.log("hide");
           note.close();
-          fs.writeFile("./src/flag.txt", "true", function(err) {
-            if (err) {
-              console.log(err);
-            } else {
-            }
-          });
+          save.setData("true", "noty_flag", Saves);
+          console.log(Saves);
+          save.Save(Saves);
         });
       }
     });
@@ -139,6 +139,7 @@ function initApp() {
     mainWindow.hide();
     mainWindow.setAlwaysOnTop(true, "floating", 1);
     Visualizator.setAlwaysOnTop(true);
+
     // lang_data = JSON.parse(lang_data);
   });
   app.on("window-all-closed", function() {
@@ -204,13 +205,13 @@ function createVisualizator() {
   let currentChunk = [];
   let currentVal = [];
 
-  let path = require('path');
+  let path = require("path");
   let relreadpath = "\\native\\AudioPlayBack.exe";
   let basereadpath = path.dirname(__dirname);
   let filereadpath = basereadpath + relreadpath;
 
   if (!fs.existsSync(filereadpath)) {
-      filereadpath = __dirname + relreadpath;
+    filereadpath = __dirname + relreadpath;
   }
 
   let child = child_process.spawn(filereadpath, []);
@@ -325,6 +326,11 @@ ipcMain.on("Add_Vis", (event, args) => {
   createVisualizator();
 });
 ipcMain.on("tray_start", (event, args) => {
+  var Saves = save.Load();
+  // var flag = save.load_data("noty_flag", Saves);
+  var auto_flag = save.load_data("auto_start_flag", Saves);
+
+  trayWIN.webContents.send("checkbox", auto_flag);
   trayWIN.webContents.send("lang_data_event", lang_data);
 });
 ipcMain.on("auto_enable", (event, args) => {

@@ -119,6 +119,7 @@
       const AddButton = document.getElementById("add");
       const SaveButton = document.getElementById("save");
       const checkbox = document.getElementById("auto");
+      // const save = require("./save_system/Save");
       ipcRenderer.on("lang_data_event", (event, data) => {
         if (data != "err") {
           data = JSON.parse(data);
@@ -129,7 +130,16 @@
         } else {
         }
       });
+      ipcRenderer.on("checkbox", (event, data) => {
+        console.log(data);
+        if (data == "false") {
+          checkbox.checked = false;
+        } else {
+          checkbox.checked = true;
+        }
+      });
       ipcRenderer.send("tray_start", "true");
+
       //translation.translate_str("edit");
       const container_main_mode = document.getElementById(
         "container_main_mode"
@@ -159,9 +169,21 @@
       //  alert(__dirname);
       function check() {
         if (checkbox.checked) {
-          ipcRenderer.send("auto_enable", "enable");
+          ipcRenderer.on("checkbox", (event, data) => {
+            console.log(data);
+            if (data == "false") {
+              ipcRenderer.send("auto_enable", "enable");
+            } else {
+            }
+          });
         } else {
-          ipcRenderer.send("auto_enable", "disabled");
+          ipcRenderer.on("checkbox", (event, data) => {
+            console.log(data);
+            if (data == "false") {
+            } else {
+              ipcRenderer.send("auto_enable", "disabled");
+            }
+          });
         }
       }
     </script>
