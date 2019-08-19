@@ -34,6 +34,9 @@ function Load() {
 function setData(data, key, json_obj) {
   json_obj[key] = data;
 }
+function newKey(data, key, json_obj) {
+  json_obj[key] = data;
+}
 function load_data(key, json_obj) {
   data = json_obj[key];
   return data;
@@ -55,3 +58,4 @@ module.exports.Load = Load;
 module.exports.Save = Save;
 module.exports.setData = setData;
 module.exports.load_data = load_data;
+module.exports.newKey = newKey;

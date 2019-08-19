@@ -10,6 +10,7 @@ const translation = require("./src/language/translate");
 const save = require("./src/save_system/Save");
 const Notification = require("@wuild/electron-notification");
 var AutoLaunch = require("auto-launch");
+var pos;
 /*
 Windwos[0] - ТРЕЙ
 Windwow[1] - Окно редактиования
@@ -97,6 +98,8 @@ function initApp() {
       if (data != "err") {
         lang_data = Buffer.from(Buffer.from(data).toString("utf-8"), "base64");
         a = JSON.parse(lang_data);
+        console.log(a);
+        console.log("READER");
         noty_body = translation.translate_str(
           "noty_body",
           JSON.parse(lang_data)
@@ -115,6 +118,10 @@ function initApp() {
       var flag = save.load_data("noty_flag", Saves);
       var auto_flag = save.load_data("auto_start_flag", Saves);
       console.log(flag);
+      var win_x = save.load_data("win_x", Saves);
+      var win_y = save.load_data("win_y", Saves);
+      console.log(win_x + "эОО ИКс да ладно");
+      Visualizator.setPosition(win_x, win_y);
       if (flag == "true") {
       } else {
         note = new Notification({
@@ -194,6 +201,13 @@ function createVisualizator() {
   Visualizator.loadFile("src/Visualizator.html");
   Visualizator.on("closed", function() {
     Visualizator = null;
+  });
+  Visualizator.on("move", function() {
+    var obj = save.Load();
+    pos = Visualizator.getPosition();
+    save.setData(pos[0], "win_x", obj);
+    save.setData(pos[1], "win_y", obj);
+    save.Save(obj);
   });
   bringWndToFront();
 

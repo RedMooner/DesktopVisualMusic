@@ -165,6 +165,7 @@
         Windows[2].webContents.send("editMode", false);
         container_edit_mode.style.display = "none";
         container_main_mode.style.display = "block";
+        ipcRenderer.send("save_chages", "true");
       });
       //  alert(__dirname);
       function check() {
