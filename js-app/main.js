@@ -117,10 +117,10 @@ function initApp() {
       var Saves = save.Load();
       var flag = save.load_data("noty_flag", Saves);
       var auto_flag = save.load_data("auto_start_flag", Saves);
-      console.log(flag);
+      // console.log(flag);
       var win_x = save.load_data("win_x", Saves);
       var win_y = save.load_data("win_y", Saves);
-      console.log(win_x + "эОО ИКс да ладно");
+      // console.log(win_x + "эОО ИКс да ладно");
       Visualizator.setPosition(win_x, win_y);
       if (flag == "true") {
       } else {
@@ -133,10 +133,10 @@ function initApp() {
 
         note.show();
         trayWIN.on("show", function() {
-          console.log("hide");
+          // console.log("hide");
           note.close();
           save.setData("true", "noty_flag", Saves);
-          console.log(Saves);
+          //  console.log(Saves);
           save.Save(Saves);
         });
       }
@@ -332,18 +332,18 @@ function parseInteger(x) {
 }
 
 ipcMain.on("close_app", (event, args) => {
-  console.log(args);
+  //console.log(args);
   app.exit();
 });
 ipcMain.on("Add_Vis", (event, args) => {
-  console.log(args);
+  // console.log(args);
   createVisualizator();
 });
 ipcMain.on("tray_start", (event, args) => {
   var Saves = save.Load();
   // var flag = save.load_data("noty_flag", Saves);
   var auto_flag = save.load_data("auto_start_flag", Saves);
-
+  //console.log(auto_flag);
   trayWIN.webContents.send("checkbox", auto_flag);
   trayWIN.webContents.send("lang_data_event", lang_data);
 });
@@ -352,8 +352,12 @@ ipcMain.on("auto_enable", (event, args) => {
     name: "DVM"
   });
   if (args == "enable") {
+    var Saves = save.Load();
     AutoLauncher.enable();
+    save.setData("true", "auto_start_flag", Saves);
   } else {
     AutoLauncher.disable();
+    save.setData("fasle", "auto_start_flag", Saves);
   }
+  save.Save(Saves);
 });

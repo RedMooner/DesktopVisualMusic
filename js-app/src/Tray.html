@@ -131,7 +131,7 @@
         }
       });
       ipcRenderer.on("checkbox", (event, data) => {
-        console.log(data);
+        console.log(data + "cehcefef");
         if (data == "false") {
           checkbox.checked = false;
         } else {
@@ -170,21 +170,9 @@
       //  alert(__dirname);
       function check() {
         if (checkbox.checked) {
-          ipcRenderer.on("checkbox", (event, data) => {
-            console.log(data);
-            if (data == "false") {
-              ipcRenderer.send("auto_enable", "enable");
-            } else {
-            }
-          });
+          ipcRenderer.send("auto_enable", "enable");
         } else {
-          ipcRenderer.on("checkbox", (event, data) => {
-            console.log(data);
-            if (data == "false") {
-            } else {
-              ipcRenderer.send("auto_enable", "disabled");
-            }
-          });
+          ipcRenderer.send("auto_enable", "disabled");
         }
       }
     </script>

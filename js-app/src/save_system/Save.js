@@ -28,7 +28,7 @@ fs.readFile(path + "/save.json", "utf8", (err, data) => {
   }
 });
 function Load() {
-  console.log(data_obj);
+  // console.log(data_obj);
   return JSON.parse(data_obj);
 }
 function setData(data, key, json_obj) {
@@ -43,15 +43,15 @@ function load_data(key, json_obj) {
 }
 function Save(json_obj) {
   var a = JSON.stringify(json_obj);
-  console.log(a);
-  console.log("write");
+  // console.log(a);
+  //console.log("write");
   fs.writeFile(path + "/save.json", a, err => {
     if (err) {
       console.error(err);
       return;
     }
     //файл записан успешно
-    console.log("suc");
+    //  console.log("suc");
   });
 }
 module.exports.Load = Load;
