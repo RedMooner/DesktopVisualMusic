@@ -348,16 +348,16 @@ ipcMain.on("tray_start", (event, args) => {
   trayWIN.webContents.send("lang_data_event", lang_data);
 });
 ipcMain.on("auto_enable", (event, args) => {
+  var Saves = save.Load();
   var AutoLauncher = new AutoLaunch({
     name: "DVM"
   });
   if (args == "enable") {
-    var Saves = save.Load();
     AutoLauncher.enable();
     save.setData("true", "auto_start_flag", Saves);
   } else {
     AutoLauncher.disable();
-    save.setData("fasle", "auto_start_flag", Saves);
+    save.setData("false", "auto_start_flag", Saves);
   }
   save.Save(Saves);
 });
