@@ -16,30 +16,26 @@ namespace Reader
 
             // \native\language\ru.json для дебага и
             // \resources\language\ru.json для билда
-            var rootPath = AppDomain.CurrentDomain.BaseDirectory;
-            //if(Directory.Exists(Path.Combine(rootPath, "resources")))
-            //{
-             //   rootPath = Path.Combine(rootPath, "resources");
-           // }
-            //System.Windows.Forms.MessageBox.Show(rootPath);
+            var rootPath = Environment.CurrentDirectory;
+            if(Directory.Exists(Path.Combine(rootPath, "resources")))
+            {
+                rootPath = Path.Combine(rootPath, "resources");
+            }
+
             var culture = System.Globalization.CultureInfo.CurrentCulture;
-           
+
             try
             {
                 try
                 {
-
                     //System.Windows.Forms.MessageBox.Show(Environment.CurrentDirectory);
-
-                    FileStream file1 = new FileStream(rootPath  + culture.ToString() + ".json", FileMode.Open); //создаем файловый поток "\\native\\language\\"
+                    FileStream file1 = new FileStream(rootPath + "\\native\\language\\" + culture.ToString() + ".json", FileMode.Open); //создаем файловый поток
                     StreamReader reader = new StreamReader(file1); // создаем «потоковый читатель» и связываем его с файловым потоком
 
                     var text = System.Convert.ToBase64String(System.Text.Encoding.UTF8.GetBytes(reader.ReadToEnd()));
                     //  System.Convert.ToBase64String(reader.ReadToEnd()); - ОШИБКА
                     Console.Write(text); //считываем все данные с потока и выводим на экран
-                    
                     reader.Close(); //закрываем поток
-                   
                 }
                 catch (System.IO.DirectoryNotFoundException) {
                     System.Windows.Forms.MessageBox.Show("Err" + rootPath + "\\native\\language\\ru.json");

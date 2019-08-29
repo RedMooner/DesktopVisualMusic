@@ -119,6 +119,7 @@
       const AddButton = document.getElementById("add");
       const SaveButton = document.getElementById("save");
       const checkbox = document.getElementById("auto");
+      let array;
       // const save = require("./save_system/Save");
       ipcRenderer.on("lang_data_event", (event, data) => {
         if (data != "err") {
@@ -129,6 +130,9 @@
           AddButton.innerHTML = translation.translate_str("add", data);
         } else {
         }
+      });
+      ipcRenderer.on("array_win", (event, data) => {
+        array = data;
       });
       ipcRenderer.on("checkbox", (event, data) => {
         console.log(data + "cehcefef");
@@ -147,22 +151,33 @@
       const container_edit_mode = document.getElementById(
         "container_edit_mode"
       );
-      var Windows = BrowserWindow.getAllWindows();
       container_edit_mode.style.display = "none";
       container_main_mode.style.display = "block";
       edit_btn.addEventListener("click", function(event) {
-        Windows[2].webContents.send("editMode", true);
-        container_edit_mode.style.display = "block";
-        container_main_mode.style.display = "none";
+        let Windows = BrowserWindow.getAllWindows();
+
+        Windows[1].show();
+        for (let i = 2; i < Windows.length; i++) {
+          Windows[i].webContents.send("editMode", true);
+          Windows[i].setIgnoreMouseEvents(false);
+          container_edit_mode.style.display = "block";
+          container_main_mode.style.display = "none";
+        }
       });
       exit_btn.addEventListener("click", function(event) {
         ipcRenderer.send("close_app", "close");
       });
       AddButton.addEventListener("click", function(event) {
+        let Windows = BrowserWindow.getAllWindows();
         ipcRenderer.send("Add_Vis", "add");
       });
       SaveButton.addEventListener("click", function(event) {
-        Windows[2].webContents.send("editMode", false);
+        let Windows = BrowserWindow.getAllWindows();
+        for (let i = 2; i < Windows.length; i++) {
+          Windows[1].hide();
+          Windows[i].webContents.send("editMode", false);
+          Windows[i].setIgnoreMouseEvents(true);
+        }
         container_edit_mode.style.display = "none";
         container_main_mode.style.display = "block";
         ipcRenderer.send("save_chages", "true");

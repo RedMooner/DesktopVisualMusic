@@ -18,7 +18,7 @@ Windows[2+] - Визуалтзаторы
 */
 let trayWIN;
 let mainWindow;
-let Visualizator;
+let Visualizator = [];
 let a;
 var lang_data;
 var noty_title;
@@ -74,7 +74,7 @@ function initApp() {
     });
 
     createWindow();
-    createVisualizator();
+    createVisualizator(0);
 
     //child.stdout.pipe(process.stdout);
 
@@ -121,7 +121,7 @@ function initApp() {
       var win_x = save.load_data("win_x", Saves);
       var win_y = save.load_data("win_y", Saves);
       // console.log(win_x + "эОО ИКс да ладно");
-      Visualizator.setPosition(win_x, win_y);
+      Visualizator[0].setPosition(win_x, win_y);
       if (flag == "true") {
       } else {
         note = new Notification({
@@ -145,7 +145,7 @@ function initApp() {
 
     mainWindow.hide();
     mainWindow.setAlwaysOnTop(true, "floating", 1);
-    Visualizator.setAlwaysOnTop(true);
+    Visualizator[0].setAlwaysOnTop(true);
 
     // lang_data = JSON.parse(lang_data);
   });
@@ -170,11 +170,11 @@ function initApp() {
 }
 
 //on app initialized, create app
-function createVisualizator() {
+function createVisualizator(win_id) {
   let canHide = true;
 
   // Create the browser window.
-  Visualizator = new BrowserWindow({
+  Visualizator[win_id] = new BrowserWindow({
     width: 500,
     height: 200,
     minWidth: 300,
@@ -198,20 +198,20 @@ function createVisualizator() {
   if (process.platform === "darwin") {
     app.dock.hide(); // TO FROM BOTTOM TASK PANEL MacOS
   }
-  Visualizator.loadFile("src/Visualizator.html");
-  Visualizator.on("closed", function() {
-    Visualizator = null;
+  Visualizator[win_id].loadFile("src/Visualizator.html");
+  Visualizator[win_id].on("closed", function() {
+    Visualizator[win_id] = null;
   });
-  Visualizator.on("move", function() {
+  Visualizator[win_id].on("move", function() {
     var obj = save.Load();
-    pos = Visualizator.getPosition();
+    pos = Visualizator[win_id].getPosition();
     save.setData(pos[0], "win_x", obj);
     save.setData(pos[1], "win_y", obj);
     save.Save(obj);
   });
   bringWndToFront();
 
-  Visualizator.setIgnoreMouseEvents(true);
+  Visualizator[win_id].setIgnoreMouseEvents(true);
 
   const EventEmitter = require("events");
 
@@ -251,8 +251,8 @@ function createVisualizator() {
 
         if (!bytesPerSec) {
           bytesPerSec = parseArrToInt(currentChunk);
-        } else if (Visualizator) {
-          Visualizator.webContents.send("waveData", currentChunk);
+        } else if (Visualizator[win_id]) {
+          Visualizator[win_id].webContents.send("waveData", currentChunk);
           //console.log(currentChunk);
         }
 
@@ -337,7 +337,11 @@ ipcMain.on("close_app", (event, args) => {
 });
 ipcMain.on("Add_Vis", (event, args) => {
   // console.log(args);
-  createVisualizator();
+  let a = Visualizator.length;
+  a++;
+  createVisualizator(a);
+
+  trayWIN.webContents.send("array_win", a);
 });
 ipcMain.on("tray_start", (event, args) => {
   var Saves = save.Load();

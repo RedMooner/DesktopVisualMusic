@@ -1,86 +1,99 @@
 <html>
-  <head> </head>
-  <body id="body">
+<head>
     <style>
-      body {
-        margin: 0%;
-        min-height: 100vh;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        overflow: hidden;
-        -webkit-app-region: drag;
-        box-sizing: border-box;
-      }
-
-      .logo {
-        margin: 2px;
-        border-radius: 30px;
-      }
-      body:hover {
-        border: solid rgba(255, 255, 255, 0.253) 1px;
-      }
-    </style>
-    <div id="container">
-      <script>
-        const { ipcRenderer } = require("electron");
-        const BrowserWindow = require("electron").remote.BrowserWindow;
-        const path = require("path");
-        const url = require("url");
-        ipcRenderer.on("waveData", (event, data) => {
-          array = data;
-          //console.log(data);
-        });
-
-        var body,
-          num,
-          array,
-          width,
-          context,
-          logo,
-          myElements,
-          analyser,
-          src,
-          height;
-
-        body = document.querySelector("body");
-        //body = document.getElementById('container');
-        num = 32;
-        array = new Uint8Array(num * 2);
-        width = 10;
-        //var  bodyNode = document.body;
-
-        ipcRenderer.on("editMode", (event, edit) => {
-          var Windows = BrowserWindow.getAllWindows();
-          console.log(edit);
-          if (edit == false) {
-            body.style.border = "none white 5px";
-            Windows[2].setIgnoreMouseEvents(true);
-
-            Windows[1].hide();
-            // body.style.border="none";
-          } else {
-            Windows[2].setIgnoreMouseEvents(false);
-
-            Windows[1].show();
-            body.style.border = "solid white 5px";
-          }
-        });
-        for (var i = 0; i < num; i++) {
-          logo = document.createElement("div");
-          logo.className = "logo";
-          logo.style.background = "red";
-          logo.style.minWidth = width + "px";
-          logo.style.maxHeight = "calc(100vh - 10px)";
-          logo.style.transition = "all 0.2s";
-
-          body.appendChild(logo);
+        iframe {
+            border: none;
+            flex-grow: 1;
+            height: 100vh;
+            width: 100%;
         }
 
-        myElements = document.getElementsByClassName("logo");
+        body {
+            -webkit-app-region: drag;
+            box-sizing: border-box;
+            width: 100%;
+            height: 100vh;
+            overflow: hidden;
+            margin: 0;
+        }
+
+        #container {
+            position: absolute;
+            top:0;
+            left: 0;
+        }
+        button{
+            -webkit-app-region: no-drag;
+        }
+    </style>
+</head>
+<body id="body">
+
+<script>
+    var myFunc = function () {
+
+    };
+</script>
+<iframe id="iframe" src="test.html">
+</iframe>
+<div id="container">
+    <button>Edit</button>
+</div>
+<script>
+    const {ipcRenderer} = require("electron");
+    const BrowserWindow = require("electron").remote.BrowserWindow;
+    const path = require("path");
+    const url = require("url");
+    ipcRenderer.on("waveData", (event, data) => {
+        array = data;
+        //console.log(data);
+    });
+
+    var body,
+        num,
+        array,
+        width,
+        context,
+        logo,
+        myElements,
+        analyser,
+        src,
+        height;
+
+
+    body = document.querySelector("body");
+    //body = document.getElementById('container');
+    num = 32;
+    array = new Uint8Array(num * 2);
+    width = 10;
+    //var  bodyNode = document.body;
+    let iframe = document.getElementById('iframe');
+
+    iframe.onload = function () {
+
+        let innerDoc = (iframe.contentDocument || iframe.contentWindow.document);
+        let innerBody = innerDoc.body;
+        //innerDoc.open();
+        //innerDoc.close();
+        // alert(innerBody);
+
+
+        for (var i = 0; i < num; i++) {
+
+            logo = innerDoc.createElement("div");
+            logo.className = "logo";
+            logo.style.background = "red";
+            logo.style.minWidth = width + "px";
+            logo.style.maxHeight = "calc(100vh - 10px)";
+            logo.style.transition = "all 0.2s";
+
+            innerBody.appendChild(logo);
+        }
+        myElements = innerDoc.getElementsByClassName("logo");
+
         context = new AudioContext();
 
-        /* C МИКРОФНОМ 
+        /* C МИКРОФНОМ
     navigator.mediaDevices.getUserMedia({
         audio: true
     }).then(stream => {
@@ -91,33 +104,46 @@
         location.reload();
     });
     */
+        console.log(myElements[0]);
 
         loop(); // Бкз микрофона
+    }
+    ipcRenderer.on("editMode", (event, edit) => {
+        console.log(edit);
+        if (edit == false) {
+            body.style.border = "none white 5px";
+            // body.style.border="none";
+        } else {
+            body.style.border = "solid white 5px";
+        }
+    });
 
-        function loop() {
-          window.requestAnimationFrame(loop);
 
-          let all0 = false;
-          if (array.length < num) {
+    function loop() {
+        //console.log("УРА Я РАБОТАЮ");
+
+        let all0 = false;
+        if (array.length < num) {
             all0 = true;
-          }
-          for (var i = 0; i < num; i++) {
+        }
+        for (var i = 0; i < num; i++) {
             if (!all0) {
-              let abs = array[i] / 100000000000000.0;
-              height = abs * 20000000000;
+                let abs = array[i] / 100000000000000.0;
+                height = abs * 20000000000;
             } else {
-              height = 0;
+                height = 0;
             }
 
             myElements[i].style.height = height + "px";
             myElements[i].style.opacity = 0.08 * height;
             // myElements[i].style.background = "green";
-          }
         }
-      </script>
-    </div>
+        window.requestAnimationFrame(loop);
+    }
+</script>
+</div>
 
-    <script src="./js/propertys.js"></script>
-    <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min.js"></script>
-  </body>
+<script src="./js/propertys.js"></script>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min.js"></script>
+</body>
 </html>
