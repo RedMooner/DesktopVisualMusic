@@ -154,6 +154,20 @@
       container_edit_mode.style.display = "none";
       container_main_mode.style.display = "block";
       edit_btn.addEventListener("click", function(event) {
+        edit_mode();
+      });
+      exit_btn.addEventListener("click", function(event) {
+        ipcRenderer.send("close_app", "close");
+      });
+      AddButton.addEventListener("click", function(event) {
+        ipcRenderer.send("Add_Vis", "add");
+        Save("reload");
+      });
+      SaveButton.addEventListener("click", function(event) {
+        Save();
+      });
+      //  alert(__dirname);
+      function edit_mode() {
         let Windows = BrowserWindow.getAllWindows();
 
         Windows[1].show();
@@ -163,26 +177,23 @@
           container_edit_mode.style.display = "block";
           container_main_mode.style.display = "none";
         }
-      });
-      exit_btn.addEventListener("click", function(event) {
-        ipcRenderer.send("close_app", "close");
-      });
-      AddButton.addEventListener("click", function(event) {
-        let Windows = BrowserWindow.getAllWindows();
-        ipcRenderer.send("Add_Vis", "add");
-      });
-      SaveButton.addEventListener("click", function(event) {
-        let Windows = BrowserWindow.getAllWindows();
-        for (let i = 2; i < Windows.length; i++) {
-          Windows[1].hide();
-          Windows[i].webContents.send("editMode", false);
-          Windows[i].setIgnoreMouseEvents(true);
+      }
+      function Save(flag) {
+        if (flag == "reload") {
+          Save();
+          edit_mode();
+        } else {
+          let Windows = BrowserWindow.getAllWindows();
+          for (let i = 2; i < Windows.length; i++) {
+            Windows[1].hide();
+            Windows[i].webContents.send("editMode", false);
+            Windows[i].setIgnoreMouseEvents(true);
+          }
+          container_edit_mode.style.display = "none";
+          container_main_mode.style.display = "block";
+          ipcRenderer.send("save_chages", "true");
         }
-        container_edit_mode.style.display = "none";
-        container_main_mode.style.display = "block";
-        ipcRenderer.send("save_chages", "true");
-      });
-      //  alert(__dirname);
+      }
       function check() {
         if (checkbox.checked) {
           ipcRenderer.send("auto_enable", "enable");

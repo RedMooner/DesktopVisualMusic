@@ -340,7 +340,6 @@ ipcMain.on("Add_Vis", (event, args) => {
   let a = Visualizator.length;
   a++;
   createVisualizator(a);
-
   trayWIN.webContents.send("array_win", a);
 });
 ipcMain.on("tray_start", (event, args) => {

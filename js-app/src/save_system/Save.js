@@ -2,9 +2,11 @@ const fs = require("fs");
 //const Path = require("path");
 var data_obj;
 
-var obj = {
+var obj = { // самые выжные параметры
   auto_start_flag: "false",
-  noty_flag: "false"
+  noty_flag: "false",
+  win_x: 0,
+  win_y: 0
 };
 const { app } = require("electron");
 var path = app.getPath("userData");
